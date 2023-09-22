@@ -1,0 +1,46 @@
+@baseapi = http://localhost:4000
+@version = v1
+@at = {{login.response.body.token}}
+GET {{baseapi}} HTTP/1.1
+
+### login
+# @name login
+POST {{baseapi}}/{{version}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username":"BKDev99",
+    "pwd":"Dev99"
+}
+
+### get data
+POST {{baseapi}}/{{version}}/user/getData HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "limit":10,
+    "offset":0
+}
+### get data by uid
+POST {{baseapi}}/{{version}}/user/getDataByUid HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "uid":1
+}
+
+### update
+PUT {{baseapi}}/{{version}}/user/edit HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "name":"Bounkhong2",
+    "surname":"Chuangthevy2",
+    "gender":"m",
+    "username":"BKDev99",
+    "pwd":"Dev99",
+    "uid":4
+}
