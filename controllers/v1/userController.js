@@ -43,7 +43,7 @@ module.exports = {
       };
       const validate = ajv.compile(schema);
       const data = {
-        uid: req.body.uid,
+        uid: parseInt(req.params.uid),
       };
       const valid = validate(data);
       // C0DE: 400 INVALID VALUES
@@ -113,6 +113,31 @@ module.exports = {
           res.json("success");
         }
       });
+    } catch (error) {
+      res.status(500).json({ e: "E0" });
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      const schema = {
+        type: "object",
+        properties: {
+          uid: { type: "integer" },
+        },
+        required: ["uid"],
+        additionalProperties: false,
+      };
+      const validate = ajv.compile(schema);
+      const data = {
+        uid: parseInt(req.params.uid),
+      };
+      const valid = validate(data);
+      // C0DE: 400 INVALID VALUES
+      if (!valid) return res.status(400).json("Invalid value");
+
+      //get data by uid
+      await userModel.delete(data.uid);
+      res.json("success");
     } catch (error) {
       res.status(500).json({ e: "E0" });
     }

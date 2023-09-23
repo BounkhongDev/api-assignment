@@ -9,8 +9,8 @@ POST {{baseapi}}/{{version}}/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "username":"BKDev99",
-    "pwd":"Dev99"
+    "username":"BKDev99",
+    "pwd":"Dev1122"
 }
 
 ### get data
@@ -23,13 +23,10 @@ authorization:  {{at}}
     "offset":0
 }
 ### get data by uid
-POST {{baseapi}}/{{version}}/user/getDataByUid HTTP/1.1
+GET {{baseapi}}/{{version}}/user/getDataByUid/5 HTTP/1.1
 Content-Type: application/json
 authorization:  {{at}}
 
-{
-    "uid":1
-}
 
 ### update
 PUT {{baseapi}}/{{version}}/user/edit HTTP/1.1
@@ -37,10 +34,15 @@ Content-Type: application/json
 authorization:  {{at}}
 
 {
-    "name":"Bounkhong2",
-    "surname":"Chuangthevy2",
+    "name":"Bounkhong",
+    "surname":"Chuangthevy",
     "gender":"m",
-    "username":"BKDev99",
+    "username":"BKDev",
     "pwd":"Dev99",
     "uid":4
 }
+
+### delete
+DELETE {{baseapi}}/{{version}}/user/del/5 HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}

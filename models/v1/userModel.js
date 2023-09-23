@@ -7,7 +7,7 @@ module.exports = {
       try {
         con = await db.getConnection();
         let getData = await con.query(
-          "SELECT uid,name,surname,gender FROM tbUsers LIMIT ? OFFSET ?",
+          "SELECT uid,name,surname,gender FROM tbUsers WHERE stt=1 LIMIT ? OFFSET ?",
           [limit, offset]
         );
         resolve(getData);
@@ -24,7 +24,7 @@ module.exports = {
       try {
         con = await db.getConnection();
         let getData = await con.query(
-          "SELECT uid,name,surname,gender FROM tbUsers WHERE uid=?",
+          "SELECT uid,name,surname,gender FROM tbUsers WHERE stt=1 AND uid=?",
           [uid]
         );
         resolve(getData);
@@ -41,7 +41,7 @@ module.exports = {
       try {
         con = await db.getConnection();
         let getDataByUserName = await con.query(
-          "SELECT * FROM tbUsers WHERE username=?",
+          "SELECT * FROM tbUsers WHERE stt=1 AND username=?",
           [username]
         );
         resolve(getDataByUserName);
@@ -81,6 +81,23 @@ module.exports = {
           [name, surname, gender, username, pwd]
         );
         resolve(insert);
+      } catch (error) {
+        reject(error);
+      } finally {
+        if (con) con.end();
+      }
+    });
+  },
+
+  delete: (uid) => {
+    return new Promise(async (resolve, reject) => {
+      let con;
+      try {
+        con = await db.getConnection();
+        let del = await con.query("UPDATE tbUsers SET stt=0 WHERE uid=?", [
+          uid,
+        ]);
+        resolve(del);
       } catch (error) {
         reject(error);
       } finally {
