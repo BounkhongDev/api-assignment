@@ -1,0 +1,59 @@
+@baseapi = http://localhost:4000
+@version = v1
+@at = {{login.response.body.token}}
+GET {{baseapi}} HTTP/1.1
+
+### login
+# @name login
+POST {{baseapi}}/{{version}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"BKDev99",
+    "pwd":"Dev1122"
+}
+
+### get data
+POST {{baseapi}}/{{version}}/village/getData HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "limit":10,
+    "offset":0
+}
+### get data by id
+GET {{baseapi}}/{{version}}/village/getDataById/1 HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+### get details
+GET {{baseapi}}/{{version}}/village/details/1 HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+### insert
+POST {{baseapi}}/{{version}}/village/add HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "v_name":"Nongthaneau",
+    "dr_id":1
+}
+
+### update
+PUT {{baseapi}}/{{version}}/village/edit HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "v_name":"Nongthaneau",
+    "dr_id":1,
+    "v_id":1
+}
+
+### delete
+DELETE {{baseapi}}/{{version}}/village/del/1 HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}

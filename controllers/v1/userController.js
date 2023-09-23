@@ -25,8 +25,8 @@ module.exports = {
       if (!valid) return res.status(400).json("Invalid value");
 
       //get data
-      let resultGetdata = await userModel.getData(data.limit, data.offset);
-      res.json(resultGetdata);
+      let resultGetData = await userModel.getData(data.limit, data.offset);
+      res.json(resultGetData);
     } catch (error) {
       res.status(500).json({ e: "E0" });
     }
@@ -50,13 +50,12 @@ module.exports = {
       if (!valid) return res.status(400).json("Invalid value");
 
       //get data by uid
-      let resultGetdataByUid = await userModel.getDataByUid(data.uid);
-      res.json(resultGetdataByUid);
+      let resultGetDataByUid = await userModel.getDataByUid(data.uid);
+      res.json(resultGetDataByUid);
     } catch (error) {
       res.status(500).json({ e: "E0" });
     }
   },
-
   update: async (req, res) => {
     try {
       const schema = {
@@ -135,7 +134,11 @@ module.exports = {
       // C0DE: 400 INVALID VALUES
       if (!valid) return res.status(400).json("Invalid value");
 
-      //get data by uid
+      //check uid
+      let resultCheckUid = await userModel.getDataByUid(data.uid);
+      if (resultCheckUid.length <= 0) return res.json({ e: "NF0" });
+
+      //delete
       await userModel.delete(data.uid);
       res.json("success");
     } catch (error) {

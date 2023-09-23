@@ -7,7 +7,7 @@ module.exports = {
       try {
         con = await db.getConnection();
         let getData = await con.query(
-          "SELECT uid,name,surname,gender FROM tbUsers WHERE stt=1 LIMIT ? OFFSET ?",
+          "SELECT dr_id,dr_name FROM tbDistrict WHERE stt=1 LIMIT ? OFFSET ?",
           [limit, offset]
         );
         resolve(getData);
@@ -18,16 +18,16 @@ module.exports = {
       }
     });
   },
-  getDataByUid: (uid) => {
+  getDataById: (dr_id) => {
     return new Promise(async (resolve, reject) => {
       let con;
       try {
         con = await db.getConnection();
-        let getDataByUid = await con.query(
-          "SELECT uid,name,surname,gender FROM tbUsers WHERE stt=1 AND uid=?",
-          [uid]
+        let getDataById = await con.query(
+          "SELECT dr_id,dr_name FROM tbDistrict WHERE stt=1 AND dr_id=?",
+          [dr_id]
         );
-        resolve(getDataByUid);
+        resolve(getDataById);
       } catch (error) {
         reject(error);
       } finally {
@@ -35,16 +35,20 @@ module.exports = {
       }
     });
   },
-  getDataByUserName: (username) => {
+  getDetails: (dr_id) => {
     return new Promise(async (resolve, reject) => {
       let con;
       try {
         con = await db.getConnection();
-        let getDataByUserName = await con.query(
-          "SELECT * FROM tbUsers WHERE stt=1 AND username=?",
-          [username]
+        let getDetails = await con.query(
+          `SELECT d.dr_id,d.pro_id,d.dr_name,p.pro_name 
+           FROM tbDistrict d
+           INNER JOIN tbProvince p ON
+           p.pro_id = d.pro_id
+           WHERE d.stt=1 AND d.dr_id=?`,
+          [dr_id]
         );
-        resolve(getDataByUserName);
+        resolve(getDetails);
       } catch (error) {
         reject(error);
       } finally {
@@ -52,15 +56,14 @@ module.exports = {
       }
     });
   },
-  
-  insert: (name, surname, gender, username, pwd) => {
+  insert: (dr_name, pro_id) => {
     return new Promise(async (resolve, reject) => {
       let con;
       try {
         con = await db.getConnection();
         let insert = await con.query(
-          "INSERT INTO tbUsers(name,surname,gender,username,pwd) VALUES (?,?,?,?,?)",
-          [name, surname, gender, username, pwd]
+          "INSERT INTO tbDistrict(dr_name,pro_id) VALUES (?,?)",
+          [dr_name, pro_id]
         );
         resolve(insert);
       } catch (error) {
@@ -71,14 +74,14 @@ module.exports = {
     });
   },
 
-  update: (name, surname, gender, username, pwd, uid) => {
+  update: (dr_name, pro_id, dr_id) => {
     return new Promise(async (resolve, reject) => {
       let con;
       try {
         con = await db.getConnection();
         let update = await con.query(
-          "UPDATE tbUsers SET name=?,surname=?,gender=?,username=?,pwd=? WHERE uid=?",
-          [name, surname, gender, username, pwd, uid]
+          "UPDATE tbDistrict SET dr_name=?,pro_id=? WHERE dr_id=?",
+          [dr_name, pro_id, dr_id]
         );
         resolve(update);
       } catch (error) {
@@ -89,13 +92,13 @@ module.exports = {
     });
   },
 
-  delete: (uid) => {
+  delete: (dr_id) => {
     return new Promise(async (resolve, reject) => {
       let con;
       try {
         con = await db.getConnection();
-        let del = await con.query("UPDATE tbUsers SET stt=0 WHERE uid=?", [
-          uid,
+        let del = await con.query("UPDATE tbDistrict SET stt=0 WHERE dr_id=?", [
+          dr_id,
         ]);
         resolve(del);
       } catch (error) {

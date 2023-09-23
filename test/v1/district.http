@@ -1,0 +1,59 @@
+@baseapi = http://localhost:4000
+@version = v1
+@at = {{login.response.body.token}}
+GET {{baseapi}} HTTP/1.1
+
+### login
+# @name login
+POST {{baseapi}}/{{version}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"BKDev99",
+    "pwd":"Dev1122"
+}
+
+### get data
+POST {{baseapi}}/{{version}}/district/getData HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "limit":10,
+    "offset":0
+}
+### get data by id
+GET {{baseapi}}/{{version}}/district/getDataById/1 HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+### get details
+GET {{baseapi}}/{{version}}/district/details/1 HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+### insert
+POST {{baseapi}}/{{version}}/district/add HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "dr_name":"Chanthabuly",
+    "pro_id":1
+}
+
+### update
+PUT {{baseapi}}/{{version}}/district/edit HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
+
+{
+    "dr_name":"Chanthabuly",
+    "pro_id":1,
+    "dr_id":1
+}
+
+### delete
+DELETE {{baseapi}}/{{version}}/district/del/1 HTTP/1.1
+Content-Type: application/json
+authorization:  {{at}}
