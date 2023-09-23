@@ -1,4 +1,4 @@
-@baseapi = http://localhost:4000
+@baseapi = http://localhost:3000
 @version = v1
 @at = {{login.response.body.token}}
 GET {{baseapi}} HTTP/1.1
